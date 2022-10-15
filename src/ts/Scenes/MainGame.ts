@@ -9,6 +9,8 @@ export default class MainGame extends Phaser.Scene {
 	player: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
 	cursors: Phaser.Types.Input.Keyboard.CursorKeys;
 	stars: Phaser.Physics.Arcade.Group;
+	score = 0;
+	scoreText: Phaser.GameObjects.Text;
 
 	public preload(): void {
 		// Preload as needed.
@@ -68,6 +70,9 @@ export default class MainGame extends Phaser.Scene {
 		this.physics.add.collider(this.stars, this.platforms);
 
 		this.physics.add.overlap(this.player, this.stars, this.collectStar, null, this);
+
+		// Note: Phaser tutorial has `fill` instead of `color`.
+		this.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', color: '#000' });
 	}
 
 	update(time: number, delta: number): void {
@@ -99,5 +104,8 @@ export default class MainGame extends Phaser.Scene {
 	collectStar (player, star)
 	{
 		star.disableBody(true, true);
+
+		this.score += 10;
+		this.scoreText.setText('Score: ' + this.score);
 	}
 }
