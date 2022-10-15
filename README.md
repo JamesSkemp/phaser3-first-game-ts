@@ -1,4 +1,8 @@
-# Starter Project for Phaser 3 with Visual Studio Code, TypeScript, and NodeJS
+# Making your first Phaser 3 game, in TypeScript!
+
+[Making your first Phaser 3 game](https://phaser.io/tutorials/making-your-first-phaser-3-game), as of 10/15/2022, written in TypeScript, with a branch created at the end of each of the 10 parts.
+
+Based upon the [Starter Project for Phaser 3 with Visual Studio Code, TypeScript, and NodeJS](https://github.com/JamesSkemp/phaser-3-vsc-typescript-nodejs), the README of which is below.
 
 The following is a starter project to get started with a new game in Phaser 3 and [Visual Studio Code](https://code.visualstudio.com/), using TypeScript and NodeJS.
 
