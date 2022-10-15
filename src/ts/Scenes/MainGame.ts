@@ -6,6 +6,8 @@ export default class MainGame extends Phaser.Scene {
 	 */
 	public static Name = "MainGame";
 	platforms: Phaser.Physics.Arcade.StaticGroup;
+	player: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
+	cursors: Phaser.Types.Input.Keyboard.CursorKeys;
 
 	public preload(): void {
 		// Preload as needed.
@@ -25,10 +27,10 @@ export default class MainGame extends Phaser.Scene {
 		this.platforms.create(50, 250, 'ground');
 		this.platforms.create(750, 220, 'ground');
 
-		const player = this.physics.add.sprite(100, 450, 'dude');
+		this.player = this.physics.add.sprite(100, 450, 'dude');
 
-		player.setBounce(0.2);
-		player.setCollideWorldBounds(true);
+		this.player.setBounce(0.2);
+		this.player.setCollideWorldBounds(true);
 
 		this.anims.create({
 			key: 'left',
@@ -50,6 +52,34 @@ export default class MainGame extends Phaser.Scene {
 			repeat: -1
 		});
 
-		this.physics.add.collider(player, this.platforms);
+		this.physics.add.collider(this.player, this.platforms);
+
+		this.cursors = this.input.keyboard.createCursorKeys();
+	}
+
+	update(time: number, delta: number): void {
+		if (this.cursors.left.isDown)
+		{
+			this.player.setVelocityX(-160);
+
+			this.player.anims.play('left', true);
+		}
+		else if (this.cursors.right.isDown)
+		{
+			this.player.setVelocityX(160);
+
+			this.player.anims.play('right', true);
+		}
+		else
+		{
+			this.player.setVelocityX(0);
+
+			this.player.anims.play('turn');
+		}
+
+		if (this.cursors.up.isDown && this.player.body.touching.down)
+		{
+			this.player.setVelocityY(-330);
+		}
 	}
 }
