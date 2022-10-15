@@ -8,6 +8,7 @@ export default class MainGame extends Phaser.Scene {
 	platforms: Phaser.Physics.Arcade.StaticGroup;
 	player: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
 	cursors: Phaser.Types.Input.Keyboard.CursorKeys;
+	stars: Phaser.Physics.Arcade.Group;
 
 	public preload(): void {
 		// Preload as needed.
@@ -55,6 +56,18 @@ export default class MainGame extends Phaser.Scene {
 		this.physics.add.collider(this.player, this.platforms);
 
 		this.cursors = this.input.keyboard.createCursorKeys();
+
+		this.stars = this.physics.add.group({
+			key: 'star',
+			repeat: 11,
+			setXY: { x: 12, y: 0, stepX: 70 }
+		});
+		this.stars.children.iterate(function (child: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody) {
+			child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+		});
+		this.physics.add.collider(this.stars, this.platforms);
+
+		this.physics.add.overlap(this.player, this.stars, this.collectStar, null, this);
 	}
 
 	update(time: number, delta: number): void {
@@ -81,5 +94,10 @@ export default class MainGame extends Phaser.Scene {
 		{
 			this.player.setVelocityY(-330);
 		}
+	}
+
+	collectStar (player, star)
+	{
+		star.disableBody(true, true);
 	}
 }
